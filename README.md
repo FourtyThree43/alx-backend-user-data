@@ -21,4 +21,4 @@ curl -sSL https://raw.githubusercontent.com/FourtyThree43/alx-backend-user-data/
 
 ## Author
 
-- [**@FourtyThree43]**(https://www.github.com/FourtyThree43/alx-backend-user-data/)
+- [**@FourtyThree43**](https://www.github.com/FourtyThree43/alx-backend-user-data/)
