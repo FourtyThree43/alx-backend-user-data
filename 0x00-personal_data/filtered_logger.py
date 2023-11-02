@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module filtered_logger
 """
-from typing import Any, List, Union
+from typing import List
 import logging
 import mysql.connector
 import os
@@ -42,6 +42,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user=db_user,
         password=db_password,
         host=db_host,
+        port=3306,
         database=db_name,
     )
 
@@ -71,3 +72,31 @@ class RedactingFormatter(logging.Formatter):
             message=message,
             separator=self.SEPARATOR,
         )
+
+
+def main():
+    """ Main function
+    """
+    columns = [
+        "name", "email", "phone", "ssn", "password", "ip", "last_login",
+        "user_agent"
+    ]
+    fields = ','.join(columns)
+    query = f"SELECT {fields} FROM users;"
+
+    info_logger = get_logger()
+    connection = get_db()
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        for row in rows:
+            record = map(lambda x: '{}={}'.format(x[0], x[1]),
+                         zip(columns, row))
+            msg = '{};'.format('; '.join(list(record)))
+            info_logger.info(msg)
+
+
+if __name__ == "__main__":
+    main()
