@@ -9,7 +9,7 @@
 
 ## Description
 
-- This repository contains the user data for the backend project.
+- This repository contains the user data for the backend Authentification project.
 
 ## Usage
 
