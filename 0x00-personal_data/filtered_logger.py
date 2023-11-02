@@ -31,14 +31,20 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> Union[mysql.connector.connection.MySQLConnection, Any]:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Function that returns a connector to the database"""
+    db_user = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.environ.get("PERSONAL_DATA_DB_NAME")
+
     connector = mysql.connector.connect(
-        user=os.environ.get("PERSONAL_DATA_DB_USERNAME", "root"),
-        password=os.environ.get("PERSONAL_DATA_DB_PASSWORD", ""),
-        host=os.environ.get("PERSONAL_DATA_DB_HOST", "localhost"),
-        database=os.environ.get("PERSONAL_DATA_DB_NAME"),
+        user=db_user,
+        password=db_password,
+        host=db_host,
+        database=db_name,
     )
+
     return connector
 
 
