@@ -37,12 +37,13 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_port = os.getenv('PERSONAL_DATA_DB_PORT', 3306)  # Default MySQL port
 
     connector = mysql.connector.connect(
         user=db_user,
         password=db_password,
         host=db_host,
-        port=3306,
+        port=db_port,
         database=db_name,
     )
 
