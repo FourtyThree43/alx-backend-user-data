@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Module filtered_logger
 """
+from mysql.connector import Error
 from typing import List
 import logging
 import mysql.connector
@@ -36,16 +37,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "holberton")
     db_port = os.getenv('PERSONAL_DATA_DB_PORT', 3306)  # Default MySQL port
 
-    connector = mysql.connector.connect(
-        user=db_user,
-        password=db_password,
-        host=db_host,
-        port=db_port,
-        database=db_name,
-    )
+    connector = None
+
+    try:
+        connector = mysql.connector.connect(
+            user=db_user,
+            password=db_password,
+            host=db_host,
+            port=db_port,
+            database=db_name,
+        )
+    except Error as e:
+        print(f"The error '{e}' occurred")
 
     return connector
 
