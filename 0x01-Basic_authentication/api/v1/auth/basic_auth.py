@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Basic auth
 """
+from typing import Tuple
 from api.v1.auth.auth import Auth
 import base64
 
@@ -36,8 +37,9 @@ class BasicAuth(Auth):
             return None
 
     def extract_user_credentials(
-            self, decoded_base64_authorization_header: str) -> (str, str):
-        """ Method that returns the user email and password from the Base64 decoded value
+            self, decoded_base64_authorization_header: str) -> Tuple[str, str]:
+        """ Method that returns the user email and password from the
+            Base64 decoded value
         """
         if decoded_base64_authorization_header is None:
             return None, None
@@ -45,9 +47,10 @@ class BasicAuth(Auth):
             return None, None
         if ':' not in decoded_base64_authorization_header:
             return None, None
-        credentials = decoded_base64_authorization_header.split(':', 1)
 
-        return credentials[0], credentials[1]
+        u_email, u_pswd = decoded_base64_authorization_header.split(':', 1)
+
+        return u_email, u_pswd
 
 
 if __name__ == "__main__":
