@@ -36,19 +36,9 @@ class Auth:
         """
         return None
 
-
-if __name__ == "__main__":
-    a = Auth()
-
-    # print(a.require_auth("/api/v1/status/", ["/api/v1/status/"]))
-    # print(a.authorization_header())
-    # print(a.current_user())
-
-    print(a.require_auth(None, None))
-    print(a.require_auth(None, []))
-    print(a.require_auth("/api/v1/status/", []))
-    print(a.require_auth("/api/v1/status/", ["/api/v1/status/"]))
-    print(a.require_auth("/api/v1/status", ["/api/v1/status/"]))
-    print(a.require_auth("/api/v1/users", ["/api/v1/status/"]))
-    print(a.require_auth("/api/v1/users",
-                         ["/api/v1/status/", "/api/v1/stats"]))
+    def session_cookie(self, request=None):
+        """ Session cookie
+        """
+        if request is None:
+            return None
+        return request.cookies.get('session_id', None)
