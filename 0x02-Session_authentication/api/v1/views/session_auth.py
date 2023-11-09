@@ -10,7 +10,7 @@ from api.v1.views import app_views
 from models.user import User
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
 def login() -> Tuple[str, int]:
     """ POST /api/v1/auth_session/login
     Return:
@@ -35,7 +35,7 @@ def login() -> Tuple[str, int]:
     if users[0].is_valid_password(password):
         from api.v1.app import auth
 
-        session_id = auth.create_session(getattr(users[0], 'id'))
+        session_id = auth.create_session(getattr(users[0], "id"))
         cookie_name = os.getenv("SESSION_NAME")
         response = jsonify(users[0].to_json())
         response.set_cookie(cookie_name, session_id)
@@ -43,3 +43,18 @@ def login() -> Tuple[str, int]:
         return response
     else:
         return jsonify({"error": "wrong password"}), 401
+
+
+@app_views.route("/auth_session/logout", methods=["DELETE"], strict_slashes=False)
+def logout() -> Tuple[str, int]:
+    """ DELETE /api/v1/auth_session/logout
+    Return:
+      - Empty JSON
+    """
+    from api.v1.app import auth
+
+    is_destroyed = auth.destroy_session(request)
+    if is_destroyed is False:
+        abort(404)
+
+    return jsonify({}), 200
