@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-""" Module of Session Auth Veiws """
-from os import getenv
-from flask import Response, abort, jsonify, request
-from typing import Tuple, Union
+"""Module of session authenticating views.
+"""
+import os
+from typing import Tuple
+from flask import abort, jsonify, request
 
+from models.user import User
 from api.v1.views import app_views
 from models.user import User
 
@@ -34,7 +36,7 @@ def login() -> Tuple[str, int]:
         from api.v1.app import auth
 
         session_id = auth.create_session(user[0].id)
-        cookie_name = getenv("SESSION_NAME")
+        cookie_name = os.getenv("SESSION_NAME")
         response = jsonify(user[0].to_json())
         response.set_cookie(cookie_name, session_id)
 
