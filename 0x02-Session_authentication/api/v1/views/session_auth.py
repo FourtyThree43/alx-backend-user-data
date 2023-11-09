@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-""" Module of Session Auth Veiws
-"""
-from api.v1.views import app_views
-from flask import Response, abort, jsonify, request
-from models.user import User
+""" Module of Session Auth Veiws """
 from os import getenv
+from flask import Response, abort, jsonify, request
 from typing import Tuple, Union
+
+from api.v1.views import app_views
+from models.user import User
 
 
 @app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
-def login() -> Union[Tuple[Response, int], Response]:
+def login() -> Tuple[str, int]:
     """ POST /api/v1/auth_session/login
     Return:
       - User object JSON represented
