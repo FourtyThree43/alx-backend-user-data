@@ -9,9 +9,9 @@ Base = declarative_base()
 
 
 class User(Base):
-    """ The User model.
-    """
-    __tablename__ = 'users'
+    """The User model."""
+
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String(250), nullable=False)
