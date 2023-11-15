@@ -2,14 +2,14 @@
 """
 Module for the User model.
 """
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
 
 class User(Base):
-    """ User class
+    """ The User model.
     """
     __tablename__ = 'users'
 

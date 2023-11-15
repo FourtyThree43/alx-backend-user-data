@@ -24,8 +24,8 @@
 * Languages: **Python 3.7**
 * OS: **Ubuntu 18.04 LTS**
 * Style guidelines: **[Pycodestyle](https://pycodestyle.pycqa.org/en/latest/)**
-* MySQL version: **5.7.x**
-* MySQL SQLAlchemy version: **1.3.x**
+* SQLite version: **1.3.x**
+* SQLAlchemy version: **1.3.x**
 * bcrytp version: **3.1.x**
 
 ## Author
