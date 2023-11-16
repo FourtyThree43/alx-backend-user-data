@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask App
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -47,6 +47,49 @@ def login() -> str:
         return response
     else:
         abort(401)
+
+
+@app.route("/sessions", methods=["DELETE"])
+def logout() -> str:
+    """DELETE /sessions
+    Return:
+        - Destroy the user session and redirect the user to GET /.
+    """
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        AUTH.destroy_session(user.id)
+        return redirect("/")
+    else:
+        abort(403)
+
+
+@app.route("/profile", methods=["GET"])
+def profile() -> str:
+    """GET /profile
+    Return:
+        - The user's profile payload.
+    """
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        return jsonify({"email": user.email}), 200
+    else:
+        abort(403)
+
+
+@app.route("/reset_password", methods=["POST"])
+def get_reset_password_token() -> str:
+    """POST /reset_password
+    Return:
+        - The reset password token payload.
+    """
+    try:
+        email = request.form.get("email")
+        token = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token}), 200
+    except ValueError:
+        abort(403)
 
 
 if __name__ == "__main__":
